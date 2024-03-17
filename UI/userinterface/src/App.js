@@ -1,0 +1,14 @@
+import logo from './logo.svg';
+import './App.css';
+import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/js/bootstrap";
+import {Dashboard} from "./Pages/Dashboard"
+function App() {
+  return (
+    <div className="App">
+     <Dashboard/>
+    </div>
+  );
+}
+
+export default App;
