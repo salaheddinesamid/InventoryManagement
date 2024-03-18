@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios"
+import Axios from "axios";
+import { Modification } from "./Modification";
+import { useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 export function Main(){
     const axios = Axios
+    const navigate = useNavigate();
+    let [productClicked,setProductClicked] = useState(false)
     let [clicked,setClicked] = useState(false);
     let [products,setProducts] = useState([]);
+    let[totalProducts,setTotalProducts] = useState(0);
+    let [targetProduct,setTargetProduct] = useState()
     const productsStatus = [
         {
             "status":"All",
@@ -14,7 +22,8 @@ export function Main(){
         },
     ]
     useEffect(()=>{
-        //let result  = axios.get("http://localhost:8080/products/");
+        let result  = axios.get("http://localhost:8080/products/").then(res=>setProducts(res.data))
+        let total = axios.get("http://localhost:8080/products/total").then(res=>setTotalProducts(res.data))
     })
     return(
         <div className="row">
@@ -33,7 +42,7 @@ export function Main(){
                             border:"0.2px solid gray",
                             padding:"5px 10px",
                             borderRadius:"10px"
-                        }}><b>Total:</b></p>
+                        }}><b>Total:{totalProducts}</b></p>
                     </div>
                 </div>
                 <div className="row mt-3">
@@ -123,19 +132,76 @@ export function Main(){
                         </div>
                         <div className="col-xl-3">
                             <button className="btn" style={{
-                                backgroundColor:"#00ff00"
+                                backgroundColor:"#00ff00",
+                                fontWeight:"bold"
+                            }} onClick={()=>{
+                                navigate("/newproduct")
                             }}>Add Product</button>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mt-4">
+                        <div className="col-xl-12">
                         {products.map((product)=>(
-                            <div className="col-xl-12">
-                                {product.name}
+                            <div className="row mt-3 ms-2" style={{
+                                border:"none",
+                                backgroundColor:"#001f3f",
+                                color:"white",
+                                padding:"10px 10px",
+                                borderRadius:"10px",
+                                cursor:"pointer"
+                            }} onClick={()=>{
+                                setProductClicked(true)
+                                setTargetProduct(product.id)
+                            }} key={product.id}>
+                                <div className="col-xl-4">
+                                    <h4>{product.productName}</h4>
+                                </div>
+                                <div className="col-xl-2">
+                                     <p style={{
+                                        color:"gray"
+                                       }}>Quantity</p>
+                                </div>
+                                <div className="col-xl-4">
+                                    <p style={{
+                                        color:"gray"
+                                    }}>Retail price</p>
+                                </div>
+                                <div className="col-xl-2">
+                                    <p style={{
+                                        color:"gray"
+                                    }}>Status</p>
+                                </div>
+                                <div className="col-xl-4">
+                                    <p>Type:{product.productType === "" ? "undefined": product.productType}</p>
+                                </div>
+                                <div className="col-xl-2">
+                                    {product.quantity}
+                                </div>
+                                <div className="col-xl-4">
+                                    <p>{product.price}$</p>
+                                </div>
+                                <div className="col-xl-2">
+                                    {product.status === "Active" ? <p><FontAwesomeIcon icon={faCheck} style={{
+                                        color:"green"
+                                    }}/>{product.status}</p>:<p><FontAwesomeIcon icon={faXmark} style={{
+                                        color:"red"
+                                    }}/>{product.status}</p>}
+                                </div>
+                                <div className="row">
+                                    <div className="col-xl-12">
+                                      {productClicked && targetProduct === product.id ? <Modification index={product.id} />:""}
+                                    </div>
+                                </div>
+                                   
+                                   
                             </div>
+                            
                         ))}
                     </div>
                 </div>
+                
             </div>
         </div>
+    </div>
     )
 }

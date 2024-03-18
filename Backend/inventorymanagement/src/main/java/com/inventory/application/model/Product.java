@@ -9,7 +9,17 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
+    private String productName;
+    private String productType;
+    private int price;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public Long getId() {
         return id;
@@ -19,20 +29,20 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getType() {
-        return type;
+    public String getProductType() {
+        return productType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
     public boolean isAvailable() {
@@ -59,7 +69,6 @@ public class Product {
         this.quantity = quantity;
     }
 
-    private String type;
     private boolean isAvailable;
     private String status;
     private int quantity;

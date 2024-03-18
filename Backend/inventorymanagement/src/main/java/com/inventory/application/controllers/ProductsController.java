@@ -1,22 +1,44 @@
 package com.inventory.application.controllers;
 
+import com.inventory.application.PutRequest;
 import com.inventory.application.model.Product;
 import com.inventory.application.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.inventory.application.services.ProductService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+
 @CrossOrigin
 @RestController
 @RequestMapping("products")
 public class ProductsController {
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductService productService;
+
+    ProductsController(ProductService productService){
+        this.productService = productService;
+    }
+
     @GetMapping("/")
     List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return productService.filterProducts();
     }
+    @GetMapping("/total")
+    int getTotal(){
+        return productService.totalProducts();
+    }
+    @PostMapping("/newproduct")
+    ResponseEntity<Object> newProduct(@RequestBody Product product){
+        return productService.addNewProduct(product);
+    }
+    @RequestMapping(value = "/update",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    Product updateProduct(@RequestBody PutRequest putRequest){
+        return productService.update(putRequest.getId(),putRequest.getNewPrice(),putRequest.getNewQuantity(),putRequest.getNewStatus());
+    }
+
+
 }

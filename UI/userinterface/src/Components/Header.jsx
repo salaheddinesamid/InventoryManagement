@@ -1,26 +1,26 @@
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChartSimple, faFile, faGlobe, faListCheck, faShop, faWarehouse, faGear, faEnvelope, faUser} from "@fortawesome/free-solid-svg-icons"
 export function Header(){
     const listOfLinks = [
         {
             "name":"Dashboard",
-            "href":"http:localhost:3000/",
-            "logo": faGlobe
+            "href":"/",
+            "logo": faGlobe,
         },
         {
             "name":"Inventory",
-            "href":"http:localhost:3000/inventory/",
+            "href":"/inventory/",
             "logo":faWarehouse
         },
         {
             "name":"Sales",
-            "href":"http:localhost:3000/sales/",
+            "href":"/sales/",
             "logo":faShop
         },
         {
             "name":"Orders",
-            "href":"http:localhost:3000/orders/",
+            "href":"/orders/",
             "logo":faListCheck
         },
         {
