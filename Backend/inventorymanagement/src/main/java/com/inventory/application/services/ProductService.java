@@ -18,9 +18,7 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     ProductRepository productRepository;
-    public String modify(String name){
-        return name + "@@";
-    }
+
     public List<Product> filterProducts(){
         List<Product> products = productRepository.findAll();
         List<Product> filteredProducts = new ArrayList<>();
