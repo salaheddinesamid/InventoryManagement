@@ -5,6 +5,7 @@ import "bootstrap/dist/js/bootstrap";
 import {Dashboard} from "./Pages/Dashboard";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { NewProductForm } from './Pages/NewProductForm';
+// ------------------------------ Main Application ---------------------//
 function App() {
   return (
     <BrowserRouter>
