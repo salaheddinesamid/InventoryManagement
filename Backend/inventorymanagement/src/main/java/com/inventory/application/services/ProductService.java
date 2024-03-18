@@ -62,6 +62,7 @@ public class ProductService {
                     // Update and Save information
                     return productRepository.save(product);
                 }
+                // Throw ProductNotFoundException if the product doesn't exist on Database
         ).orElseThrow(ProductNotFoundException::new);
     }
 }

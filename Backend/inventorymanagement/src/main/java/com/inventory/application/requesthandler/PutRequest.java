@@ -1,4 +1,4 @@
-package com.inventory.application;
+package com.inventory.application.requesthandler;
 
 public class PutRequest {
     Long id;
