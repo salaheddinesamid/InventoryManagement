@@ -17,10 +17,8 @@ export function Main(){
     let [items,setItems] = useState([]);
     
     function handleSearch(){
-        let startsWith = searchProduct[0]
-        if(startsWith !== ""){
-            let req = axios.get(`http://localhost:8080/products/${startsWith}`).then(res => setItems(res.data))
-        }
+        
+        
         
     }
     const productsStatus = [
@@ -33,10 +31,12 @@ export function Main(){
         },
     ]
     useEffect(()=>{
+        let startsWith = searchProduct[0]
         let result  = axios.get("http://localhost:8080/products/").then(res=>setProducts(res.data))
         let total = axios.get("http://localhost:8080/products/total").then(res=>setTotalProducts(res.data))
+        let req = axios.get(`http://localhost:8080/products/${startsWith}`).then(res => setItems(res.data))
         
-    },[])
+    })
     return(
         <div className="row" style={{
             position:"absolute",
@@ -145,7 +145,7 @@ export function Main(){
                         <div className="col-xl-7">
                             <input className="form-control" placeholder="Search product" onChange={(e)=>{
                                 setSearchProduct(e.target.value)
-                                handleSearch()
+                                
                             }}/>
                             {items.length !==0 ? <Items data={items}/> : ""}
                         </div>
@@ -162,10 +162,13 @@ export function Main(){
                         </div>
                         
                     </div>
-                    <div className="row mt-4">
+                    <div className="row mt-4" style={{
+                        overflowY:"scroll",
+                        height:"700px",
+                    }}>
                         <div className="col-xl-12">
                         {products.map((product)=>(
-                            <div className="row mt-3 ms-2" style={{
+                            <div className="row mt-3 ms-2 mb-2" style={{
                                 border:"none",
                                 backgroundColor:"#001f3f",
                                 color:"white",

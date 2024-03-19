@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChartSimple, faFile, faGlobe, faListCheck, faShop, faWarehouse, faGear, faEnvelope, faUser} from "@fortawesome/free-solid-svg-icons"
 export function Header(){
@@ -40,7 +41,9 @@ export function Header(){
             <div className="col-xl-2">
                 <h4 className="text-center" style={{
                     fontWeight:"bold"
-                }}>Inventar</h4>
+                }}><img src={logo} style={{
+                    height:"40px"
+                }}/>Inventar</h4>
             </div>
             <div className="col-xl-8">
                {listOfLinks.map((link)=>(

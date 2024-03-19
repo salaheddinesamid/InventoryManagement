@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Header } from "../Components/Header";
 import  Axios  from "axios";
 export function NewProductForm(){
-    const [productName,setProductName] = useState("");
-    const [productType, setProductType] = useState("");
-    const [quantity,setQuantity] = useState();
-    const [status,setStatus] = useState("");
-    const [price,setPrice] = useState();
-    const [isAvailable,setIsAvailable] = useState(false)
+    let [productName,setProductName] = useState("");
+    let [productType, setProductType] = useState("");
+    let [quantity,setQuantity] = useState();
+    let [status,setStatus] = useState("");
+    let [price,setPrice] = useState();
+    let [isAvailable,setIsAvailable] = useState(false)
     let product = {productName,productType,quantity,status,price}
     const productTypes = [
         
@@ -113,7 +113,8 @@ export function NewProductForm(){
                                 setProductName("")
                                 setProductType("")
                                 setIsAvailable()
-                                setQuantity()
+                                setQuantity(0)
+                                setPrice(0)
                             }}>Add</button>  
                        </div>
                     </div>
