@@ -39,8 +39,11 @@ public class ProductsController {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     Product updateProduct(@RequestBody PutRequest putRequest){
-
         return productService.update(putRequest.getId(),putRequest.getNewPrice(),putRequest.getNewQuantity(),putRequest.getNewStatus());
+    }
+    @GetMapping("/{str}")
+    List<Product> searchProductsStartWith(@PathVariable String str){
+        return productService.search(str);
     }
 
 

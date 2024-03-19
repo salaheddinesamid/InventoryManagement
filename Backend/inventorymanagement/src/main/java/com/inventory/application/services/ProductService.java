@@ -55,14 +55,21 @@ public class ProductService {
                 product -> {
                     // Set the new price
                     product.setPrice(price);
-                    // Set the new quantity
                     product.setQuantity(quantity);
-                    // Set the new status
                     product.setStatus(status);
-                    // Update and Save information
                     return productRepository.save(product);
                 }
                 // Throw ProductNotFoundException if the product doesn't exist on Database
         ).orElseThrow(ProductNotFoundException::new);
+    }
+    public List<Product> search(String startsWith){
+        List<Product> products = productRepository.findAll();
+        List<Product> filteredProducts = new ArrayList<>();
+        for(Product p : products){
+            if(p.getProductName().startsWith(startsWith)){
+                filteredProducts.add(p);
+            }
+        }
+        return filteredProducts;
     }
 }

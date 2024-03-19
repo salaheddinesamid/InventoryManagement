@@ -3,7 +3,8 @@ import Axios from "axios";
 import { Modification } from "./Modification";
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Items } from "./Items";
 export function Main(){
     const axios = Axios
     const navigate = useNavigate();
@@ -11,7 +12,17 @@ export function Main(){
     let [clicked,setClicked] = useState(false);
     let [products,setProducts] = useState([]);
     let[totalProducts,setTotalProducts] = useState(0);
-    let [targetProduct,setTargetProduct] = useState()
+    let [targetProduct,setTargetProduct] = useState();
+    let [searchProduct,setSearchProduct] = useState("");
+    let [items,setItems] = useState([]);
+    
+    function handleSearch(){
+        let startsWith = searchProduct[0]
+        if(startsWith !== ""){
+            let req = axios.get(`http://localhost:8080/products/${startsWith}`).then(res => setItems(res.data))
+        }
+        
+    }
     const productsStatus = [
         {
             "status":"All",
@@ -24,9 +35,13 @@ export function Main(){
     useEffect(()=>{
         let result  = axios.get("http://localhost:8080/products/").then(res=>setProducts(res.data))
         let total = axios.get("http://localhost:8080/products/total").then(res=>setTotalProducts(res.data))
-    })
+        
+    },[])
     return(
-        <div className="row">
+        <div className="row" style={{
+            position:"absolute",
+            zIndex:1
+        }}>
             <div className="col-xl-3 ms-4 pt-3 pe-3 ps-3" style={{
                 backgroundColor:"#001f3f",
                 color:"white",
@@ -127,8 +142,15 @@ export function Main(){
             <div className="col-xl-8">
                 <div className="row">
                     <div className="row">
-                        <div className="col-xl-9">
-                            <input className="form-control" placeholder="Search product"/>
+                        <div className="col-xl-7">
+                            <input className="form-control" placeholder="Search product" onChange={(e)=>{
+                                setSearchProduct(e.target.value)
+                                handleSearch()
+                            }}/>
+                            {items.length !==0 ? <Items data={items}/> : ""}
+                        </div>
+                        <div className="col-xl-1">
+                            <button className="btn btn-light"><FontAwesomeIcon icon={faSearch}/></button>
                         </div>
                         <div className="col-xl-3">
                             <button className="btn" style={{
@@ -138,6 +160,7 @@ export function Main(){
                                 navigate("/newproduct")
                             }}>Add Product</button>
                         </div>
+                        
                     </div>
                     <div className="row mt-4">
                         <div className="col-xl-12">
