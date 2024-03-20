@@ -10,11 +10,6 @@ export function Header(){
             "logo": faGlobe,
         },
         {
-            "name":"Inventory",
-            "href":"/inventory/",
-            "logo":faWarehouse
-        },
-        {
             "name":"Sales",
             "href":"/sales/",
             "logo":faShop
@@ -25,11 +20,6 @@ export function Header(){
             "logo":faListCheck
         },
         {
-            "name":"Report",
-            "href":"http:localhost:3000/report/",
-            "logo":faChartSimple
-        },
-        {
             "name":"Documents",
             "href":"http:localhost:3000/documents/",
             "logo":faFile
@@ -38,32 +28,36 @@ export function Header(){
     ]
     return(
         <div className="row align-items-center">
-            <div className="col-xl-2">
+            <div className="col-xl-2 col-md-2">
                 <h4 className="text-center" style={{
                     fontWeight:"bold"
                 }}><img src={logo} style={{
                     height:"40px"
                 }}/>Inventar</h4>
             </div>
-            <div className="col-xl-8">
-               {listOfLinks.map((link)=>(
-                   <a href={link.href} style={{
-                    textDecoration:"none",
-                    color:"gray",
-                    border:"0.3px solid #DCDCDC",
-                    padding:"5px 10px",
-                    borderRadius:"8px",
-                    margin:"0 10px",
-                    fontWeight:"bold"
-                   }}>
-                    <FontAwesomeIcon icon={link.logo} style={{
-                        color:"#DCDCDC",
-                        padding:"0 4px"
-                    }}/>
-                    {link.name}</a>
-               ))}
+            <div className="col-xl-8 col-md-8" id="menu">
+                <div className="row" id="links">
+                     {listOfLinks.map((link)=>(
+                         <div className="col-xl-3 col-md-3">
+                            <a href={link.href} style={{
+                                textDecoration:"none",
+                                color:"gray",
+                                border:"0.3px solid #DCDCDC",
+                                padding:"5px 10px",
+                                borderRadius:"8px",
+                                margin:"0 10px",
+                                fontWeight:"bold"
+                               }}>
+                                       <FontAwesomeIcon icon={link.logo} style={{
+                                           color:"#DCDCDC",
+                                           padding:"0 4px"
+                                       }}/>
+                                       {link.name}</a>
+                         </div>
+                     ))}
+               </div>
             </div>
-            <div className="col-xl-2 d-inline-flex mt-1 ps-1 pt-1">
+            <div className="col-xl-2 col-md-2 d-inline-flex mt-1 ps-1 pt-1" id="user_services">
                <p style={{
                 color:"gray",
                 border:"0.4px solid gray",

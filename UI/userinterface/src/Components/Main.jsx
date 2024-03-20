@@ -31,18 +31,23 @@ export function Main(){
         },
     ]
     useEffect(()=>{
+        // Extract the first letter for the products
         let startsWith = searchProduct[0]
+        // API call to get all the products from database
         let result  = axios.get("http://localhost:8080/products/").then(res=>setProducts(res.data))
+        // API call to get the total number of products 
         let total = axios.get("http://localhost:8080/products/total").then(res=>setTotalProducts(res.data))
         let req = axios.get(`http://localhost:8080/products/${startsWith}`).then(res => setItems(res.data))
         
-    })
+    },[])
     return(
+        // Main division
         <div className="row" style={{
             position:"absolute",
             zIndex:1
         }}>
-            <div className="col-xl-3 ms-4 pt-3 pe-3 ps-3" style={{
+            
+            <div className="col-xl-3 col-md-3 ms-4 pt-3 pe-3 ps-3" id="product_filter" style={{
                 backgroundColor:"#001f3f",
                 color:"white",
                 height:"750px",
@@ -52,7 +57,7 @@ export function Main(){
                     <div className="col-xl-6">
                         <h4><b>Products</b></h4>
                     </div>
-                    <div className="col-xl-6">
+                    <div className="col-xl-6 col-md-12">
                         <p style={{
                             border:"0.2px solid gray",
                             padding:"5px 10px",
@@ -66,20 +71,20 @@ export function Main(){
                             <p><b>Products status:</b></p>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-xl-6">
-                            <button className="btn btn-light">All</button>
+                    <div className="row ">
+                        <div className="col-xl-6 col-md-12">
+                            <button className="btn btn-light col-md-12 mt-1">All</button>
                         </div>
-                        <div className="col-xl-6">
-                            <button className="btn btn-light">Active</button>
+                        <div className="col-xl-6 col-md-12">
+                            <button className="btn btn-light col-md-12 mt-1">Active</button>
                         </div>
                     </div>
                     <div className="row mt-2">
                         <div className="col-xl-6">
-                            <button className="btn btn-light">Inactive</button>
+                            <button className="btn btn-light col-md-12 mt-1">Inactive</button>
                         </div>
                         <div className="col-xl-6">
-                            <button className="btn btn-light">Draft</button>
+                            <button className="btn btn-light col-md-12 mt-1">Draft</button>
                         </div>
                     </div>
                 </div>
@@ -91,10 +96,10 @@ export function Main(){
                     </div>
                     <div className="row">
                         <div className="col-xl-6">
-                            <button className="btn btn-light">Retail</button>
+                            <button className="btn btn-light col-md-12 mt-1">Retail</button>
                         </div>
                         <div className="col-xl-6">
-                            <button className="btn btn-light">Wholesale</button>
+                            <button className="btn btn-light col-md-12 mt-1">Wholesale</button>
                         </div>
                     </div>
                 </div>
@@ -139,20 +144,20 @@ export function Main(){
                     </div>
                 </div>
             </div>
-            <div className="col-xl-8">
+            <div className="col-xl-8 col-md-8">
                 <div className="row">
                     <div className="row">
-                        <div className="col-xl-7">
+                        <div className="col-xl-7 col-md-7">
                             <input className="form-control" placeholder="Search product" onChange={(e)=>{
                                 setSearchProduct(e.target.value)
                                 
                             }}/>
                             {items.length !==0 ? <Items data={items}/> : ""}
                         </div>
-                        <div className="col-xl-1">
+                        <div className="col-xl-1 col-md-1">
                             <button className="btn btn-light"><FontAwesomeIcon icon={faSearch}/></button>
                         </div>
-                        <div className="col-xl-3">
+                        <div className="col-xl-3 col-md-4">
                             <button className="btn" style={{
                                 backgroundColor:"#00ff00",
                                 fontWeight:"bold"
@@ -166,7 +171,7 @@ export function Main(){
                         overflowY:"scroll",
                         height:"700px",
                     }}>
-                        <div className="col-xl-12">
+                        <div className="col-xl-12 col-md-12">
                         {products.map((product)=>(
                             <div className="row mt-3 ms-2 mb-2" style={{
                                 border:"none",
@@ -179,34 +184,34 @@ export function Main(){
                                 setProductClicked(true)
                                 setTargetProduct(product.id)
                             }} key={product.id}>
-                                <div className="col-xl-4">
+                                <div className="col-xl-4 col-md-4">
                                     <h4>{product.productName}</h4>
                                 </div>
-                                <div className="col-xl-2">
+                                <div className="col-xl-2 col-md-2">
                                      <p style={{
                                         color:"gray"
                                        }}>Quantity</p>
                                 </div>
-                                <div className="col-xl-4">
+                                <div className="col-xl-4 col-md-4">
                                     <p style={{
                                         color:"gray"
                                     }}>Retail price</p>
                                 </div>
-                                <div className="col-xl-2">
+                                <div className="col-xl-2 col-md-2">
                                     <p style={{
                                         color:"gray"
                                     }}>Status</p>
                                 </div>
-                                <div className="col-xl-4">
+                                <div className="col-xl-4 col-md-4">
                                     <p>Type:{product.productType === "" ? "undefined": product.productType}</p>
                                 </div>
-                                <div className="col-xl-2">
+                                <div className="col-xl-2 col-md-2">
                                     {product.quantity}
                                 </div>
-                                <div className="col-xl-4">
+                                <div className="col-xl-4 col-md-4">
                                     <p>{product.price}$</p>
                                 </div>
-                                <div className="col-xl-2">
+                                <div className="col-xl-2 col-md-1">
                                     {product.status === "Active" ? <p><FontAwesomeIcon icon={faCheck} style={{
                                         color:"green"
                                     }}/>{product.status}</p>:<p><FontAwesomeIcon icon={faXmark} style={{
