@@ -28,17 +28,17 @@ export function Header(){
     ]
     return(
         <div className="row align-items-center">
-            <div className="col-xl-2 col-md-2">
+            <div className="col-xl-2 col-md-2 col-sm-2">
                 <h4 className="text-center" style={{
                     fontWeight:"bold"
                 }}><img src={logo} style={{
                     height:"40px"
                 }}/>Inventar</h4>
             </div>
-            <div className="col-xl-8 col-md-8" id="menu">
+            <div className="col-xl-8 col-md-8 col-sm-8 col-sm-8" id="menu">
                 <div className="row" id="links">
                      {listOfLinks.map((link)=>(
-                         <div className="col-xl-3 col-md-3">
+                         <div className="col-xl-3 col-md-3 col-sm-3" id="link">
                             <a href={link.href} style={{
                                 textDecoration:"none",
                                 color:"gray",
@@ -57,28 +57,35 @@ export function Header(){
                      ))}
                </div>
             </div>
-            <div className="col-xl-2 col-md-2 d-inline-flex mt-1 ps-1 pt-1" id="user_services">
-               <p style={{
-                color:"gray",
-                border:"0.4px solid gray",
-                padding:"5px 8px",
-                borderRadius:"5px",
-                marginRight:"5px"
-               }}><FontAwesomeIcon icon={faGear}/></p>
-               <p style={{
-                color:"gray",
-                border:"0.4px solid gray",
-                padding:"5px 8px",
-                borderRadius:"5px",
-                fontWeight:"bold",
-                marginRight:"5px"
-               }}><FontAwesomeIcon icon={faEnvelope}/></p>
-               <p style={{
-                color:"gray",
-                border:"0.4px solid gray",
-                padding:"5px 8px",
-                borderRadius:"5px"
-               }}><FontAwesomeIcon icon={faUser}/></p>
+            <div className="col-xl-2 col-md-2 col-sm-2 d-inline-flex mt-1 ps-1 pt-1" id="services">
+                <div className="col-xl-3">
+                    <p style={{
+                                color:"gray",
+                                border:"0.4px solid gray",
+                                padding:"5px 8px",
+                                borderRadius:"5px",
+                                marginRight:"5px"
+                           }}><FontAwesomeIcon icon={faGear}/></p>
+                </div>
+                <div className="col-xl-3">
+                <p style={{
+                         color:"gray",
+                         border:"0.4px solid gray",
+                         padding:"5px 8px",
+                         borderRadius:"5px",
+                         fontWeight:"bold",
+                         marginRight:"5px"
+                        }}><FontAwesomeIcon icon={faEnvelope}/></p>
+                </div>
+                <div className="col-xl-3">
+                       <p style={{
+                       color:"gray",
+                       border:"0.4px solid gray",
+                       padding:"5px 8px",
+                       borderRadius:"5px"
+                      }}><FontAwesomeIcon icon={faUser}/></p>
+                </div>
+               
             </div>
         </div>
     )
