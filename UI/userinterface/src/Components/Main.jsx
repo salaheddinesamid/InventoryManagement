@@ -39,7 +39,7 @@ export function Main(){
         let total = axios.get("http://localhost:8080/products/total").then(res=>setTotalProducts(res.data))
         let req = axios.get(`http://localhost:8080/products/${startsWith}`).then(res => setItems(res.data))
         
-    },[])
+    })
     return(
         // Main division
         <div className="row" style={{

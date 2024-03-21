@@ -32,6 +32,9 @@ export function Modification(props){
                 let modificationRequest = axios.put("http://localhost:8080/products/update",request);
                 setDisplay("none")
                }}>Modify</button>
+               <button className="btn btn-danger ms-1" onClick={()=>{
+                 let deleteRequest = axios.delete(`http://localhost:8080/products/delete/${id}`);
+               }}>Delete</button>
             </div>
             
         </div>
