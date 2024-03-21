@@ -45,6 +45,10 @@ public class ProductsController {
     List<Product> searchProductsStartWith(@PathVariable String str){
         return productService.search(str);
     }
+    @DeleteMapping("/delete/{id}")
+    public void deleteProduct(@PathVariable Long id){
+        productService.delete(id);
+    }
 
 
 }

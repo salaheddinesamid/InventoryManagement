@@ -72,4 +72,7 @@ public class ProductService {
         }
         return filteredProducts;
     }
+    public void delete(Long id){
+        productRepository.deleteById(id);
+    }
 }
