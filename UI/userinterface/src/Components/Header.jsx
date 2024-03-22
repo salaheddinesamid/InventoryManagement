@@ -1,28 +1,34 @@
 import React from "react";
-import logo from "../logo.png"
+import logo from "../logo.png";
+import {useNavigate} from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChartSimple, faFile, faGlobe, faListCheck, faShop, faWarehouse, faGear, faEnvelope, faUser} from "@fortawesome/free-solid-svg-icons"
 export function Header(){
+    const navigate = useNavigate();
     const listOfLinks = [
         {
             "name":"Dashboard",
             "href":"/",
             "logo": faGlobe,
+            "color":"black"
         },
         {
             "name":"Sales",
             "href":"/sales/",
-            "logo":faShop
+            "logo":faShop,
+            "color":"#DEB887"
         },
         {
             "name":"Orders",
             "href":"/orders/",
-            "logo":faListCheck
+            "logo":faListCheck,
+            "color":"#228B22"
         },
         {
             "name":"Documents",
             "href":"http:localhost:3000/documents/",
-            "logo":faFile
+            "logo":faFile,
+            "color":"#1E90FF"
         }
 
     ]
@@ -39,51 +45,27 @@ export function Header(){
                 <div className="row" id="links">
                      {listOfLinks.map((link)=>(
                          <div className="col-xl-3 col-md-3 col-sm-3" id="link">
-                            <a href={link.href} style={{
-                                textDecoration:"none",
-                                color:"gray",
-                                border:"0.3px solid #DCDCDC",
-                                padding:"5px 10px",
-                                borderRadius:"8px",
-                                margin:"0 10px",
-                                fontWeight:"bold"
-                               }}>
+                            <button className="btn btn-light" onClick={()=>{
+                                              navigate(link.href)
+                                       }}>
                                        <FontAwesomeIcon icon={link.logo} style={{
-                                           color:"#DCDCDC",
+                                           color:link.color,
                                            padding:"0 4px"
                                        }}/>
-                                       {link.name}</a>
+                                       {link.name}</button>
                          </div>
                      ))}
                </div>
             </div>
             <div className="col-xl-2 col-md-2 col-sm-2 d-inline-flex mt-1 ps-1 pt-1" id="services">
-                <div className="col-xl-3">
-                    <p style={{
-                                color:"gray",
-                                border:"0.4px solid gray",
-                                padding:"5px 8px",
-                                borderRadius:"5px",
-                                marginRight:"5px"
-                           }}><FontAwesomeIcon icon={faGear}/></p>
+                <div className="col-xl-3"id="settings">
+                    <button className="btn btn-primary" ><FontAwesomeIcon icon={faGear}/></button>
                 </div>
                 <div className="col-xl-3">
-                <p style={{
-                         color:"gray",
-                         border:"0.4px solid gray",
-                         padding:"5px 8px",
-                         borderRadius:"5px",
-                         fontWeight:"bold",
-                         marginRight:"5px"
-                        }}><FontAwesomeIcon icon={faEnvelope}/></p>
+                   <button className="btn btn-warning"><FontAwesomeIcon icon={faEnvelope}/></button>
                 </div>
                 <div className="col-xl-3">
-                       <p style={{
-                       color:"gray",
-                       border:"0.4px solid gray",
-                       padding:"5px 8px",
-                       borderRadius:"5px"
-                      }}><FontAwesomeIcon icon={faUser}/></p>
+                       <button className="btn btn-dark"><FontAwesomeIcon icon={faUser}/></button>
                 </div>
                
             </div>

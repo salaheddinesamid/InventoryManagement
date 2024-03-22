@@ -41,6 +41,13 @@ export function NewProductForm(){
             "status":"Not Available"
         }
     ]
+    function displayAndHide() {
+        setAlertDisplay("flex") // Display the div
+        setTimeout(function(){
+          setAlertDisplay("none") // Hide the div after 3 seconds
+        }, 3000);
+      }
+    let [alertDisplay,setAlertDisplay] = useState("none");
     const axios = Axios
     return(
         <div className="row">
@@ -48,6 +55,15 @@ export function NewProductForm(){
                 <Header/>
             </div>
             <div className="row ">
+                <div className="row d-flex justify-content-center">
+                    <div className="col-xl-4">
+                    <div class="alert alert-success" role="alert" id="alert" style={{
+                        display:alertDisplay
+                    }}>
+                            Product has been added successfully
+                          </div>
+                    </div>
+                </div>
                 <div className="container">
                     <div className="row d-flex justify-content-center mt-4">
                         <div className="col-xl-3">
@@ -115,6 +131,7 @@ export function NewProductForm(){
                                 setIsAvailable()
                                 setQuantity(0)
                                 setPrice(0)
+                                displayAndHide()
                             }}>Add</button>  
                        </div>
                     </div>

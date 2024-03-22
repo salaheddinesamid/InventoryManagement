@@ -42,7 +42,7 @@ export function Main(){
     })
     return(
         // Main division
-        <div className="row" style={{
+        <div className="row mt-3" style={{
             position:"absolute",
             zIndex:1
         }}>
@@ -50,7 +50,7 @@ export function Main(){
             <div className="col-xl-3 col-md-3 ms-4 pt-3 pe-3 ps-3" id="product_filter" style={{
                 backgroundColor:"#001f3f",
                 color:"white",
-                height:"750px",
+                height:"700px",
                 borderRadius:"10px"
             }}>
                 <div className="row">

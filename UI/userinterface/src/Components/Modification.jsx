@@ -27,7 +27,7 @@ export function Modification(props){
                     setNewStatus(e.target.value)
                 }}/>
             </div>
-            <div className="col-xl-3">
+            <div className="col-xl-5">
                <button className="btn btn-success" onClick={()=>{
                 let modificationRequest = axios.put("http://localhost:8080/products/update",request);
                 setDisplay("none")
@@ -35,6 +35,8 @@ export function Modification(props){
                <button className="btn btn-danger ms-1" onClick={()=>{
                  let deleteRequest = axios.delete(`http://localhost:8080/products/delete/${id}`);
                }}>Delete</button>
+               <button className="btn btn-danger ms-1" onClick={()=>{
+               }}>Del</button>
             </div>
             
         </div>
