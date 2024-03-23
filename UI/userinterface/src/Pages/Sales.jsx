@@ -251,12 +251,14 @@ export function Sales(){
                         </div>
                         <div className="row">
                             {orderDetails.map((order)=>(
-                                <div className="row">
+                                <div className="row mt-2">
                                     <div className="col-xl-2">{order.id}</div>
                                     <div className="col-xl-2">{order.idOfCustomer}</div>
                                     <div className="col-xl-2">{order.nameOfCustomer}</div>
                                     <div className="col-xl-2">{order.date}</div>
-                                    <div className="col-xl-2">{order.status}</div>
+                                    <div className="col-xl-2">
+                                        {order.status === "Requested" ? <p style={{backgroundColor:"#FFA500",padding:"4px 10px",borderRadius:"20px",color:"white",fontWeight:"bold",justifyContent:"center"}}>{order.status}</p> : order.status === "Delivered" ? <p></p> :""}
+                                    </div>
                                     <div className="col-xl-2">{order.price}</div>
                                 </div>
                             ))}
