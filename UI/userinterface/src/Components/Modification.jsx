@@ -35,8 +35,6 @@ export function Modification(props){
                <button className="btn btn-danger ms-1" onClick={()=>{
                  let deleteRequest = axios.delete(`http://localhost:8080/products/delete/${id}`);
                }}>Delete</button>
-               <button className="btn btn-danger ms-1" onClick={()=>{
-               }}>Del</button>
             </div>
             
         </div>
