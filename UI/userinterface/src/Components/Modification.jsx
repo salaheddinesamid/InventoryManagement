@@ -29,11 +29,11 @@ export function Modification(props){
             </div>
             <div className="col-xl-5">
                <button className="btn btn-success" onClick={()=>{
-                let modificationRequest = axios.put("http://localhost:8080/products/update",request);
+                let modificationRequest = axios.put("http://localhost:9000/products/update",request);
                 setDisplay("none")
                }}>Modify</button>
                <button className="btn btn-danger ms-1" onClick={()=>{
-                 let deleteRequest = axios.delete(`http://localhost:8080/products/delete/${id}`);
+                 let deleteRequest = axios.delete(`http://localhost:9000/products/delete/${id}`);
                }}>Delete</button>
             </div>
             

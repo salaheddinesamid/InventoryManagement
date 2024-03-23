@@ -41,10 +41,6 @@ public class ProductsController {
     Product updateProduct(@RequestBody PutRequest putRequest){
         return productService.update(putRequest.getId(),putRequest.getNewPrice(),putRequest.getNewQuantity(),putRequest.getNewStatus());
     }
-    @GetMapping("/{str}")
-    List<Product> searchProductsStartWith(@PathVariable String str){
-        return productService.search(str);
-    }
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id){
         productService.delete(id);

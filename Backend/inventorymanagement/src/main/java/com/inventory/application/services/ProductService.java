@@ -59,15 +59,19 @@ public class ProductService {
                 // Throw ProductNotFoundException if the product doesn't exist on Database
         ).orElseThrow(ProductNotFoundException::new);
     }
-    public List<Product> search(String startsWith){
+    public List<Product> search(){
         List<Product> products = productRepository.findAll();
-        List<Product> filteredProducts = new ArrayList<>();
+        List<Product> finalList = new ArrayList<>();
         for(Product p : products){
-            if(p.getProductName().startsWith(startsWith)){
-                filteredProducts.add(p);
+            if(p.getProductName().startsWith("A")){
+                finalList.add(p);
             }
         }
-        return filteredProducts;
+        return finalList;
+    }
+    public String getAppleProducts(){
+        List<Product> products = productRepository.findAll();
+        return products.get(1).getProductName();
     }
     public void delete(Long id){
         productRepository.deleteById(id);

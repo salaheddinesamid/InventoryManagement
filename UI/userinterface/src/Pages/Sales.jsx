@@ -2,8 +2,14 @@ import { faArrowRight, faChartLine, faFileInvoice, faFilter, faMoneyBill, faPeop
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Axios from "axios"
 export function Sales(){
+    const axios = Axios
+    let [orderDetails,setOrderDetails] = useState([]);
+    useEffect(()=>{
+        let req = axios.get("http://localhost:9000/orders/").then(res=>setOrderDetails(res.data))
+    },[])
     return(
         <div className="row ms-3 mt-4">
             <div className="row">
@@ -219,28 +225,42 @@ export function Sales(){
                         </button>
                      </div>
                    </div>
-                   <div className="row d-flex align-items-center mt-4" style={{
-                    backgroundColor:"#DCDCDC",
-                    borderRadius:"10px"
+                   <div className="row mt-4" >
+                        <div className="row d-flex align-items-center" style={{
+                      backgroundColor:"#DCDCDC",
+                      borderRadius:"10px"
                    }}>
-                    <div className="col-xl-2">
+                            <div className="col-xl-2">
                         <p><b>No</b></p>
-                    </div>
-                    <div className="col-xl-2">
+                            </div>
+                            <div className="col-xl-2">
                         <p><b>IdCustomer</b></p>
-                    </div>
-                    <div className="col-xl-2">
+                            </div>
+                            <div className="col-xl-2">
                         <p><b>Customer name</b></p>
-                    </div>
-                    <div className="col-xl-2">
+                            </div>
+                            <div className="col-xl-2">
                         <p><b>Order date</b></p>
-                    </div>
-                    <div className="col-xl-2">
+                            </div>
+                            <div className="col-xl-2">
                         <p><b>Status</b></p>
-                    </div>
-                    <div className="col-xl-2">
-                        <p><b>Price</b></p>
-                    </div>
+                            </div>
+                            <div className="col-xl-2">
+                           <p><b>Price</b></p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            {orderDetails.map((order)=>(
+                                <div className="row">
+                                    <div className="col-xl-2">{order.id}</div>
+                                    <div className="col-xl-2">{order.idOfCustomer}</div>
+                                    <div className="col-xl-2">{order.nameOfCustomer}</div>
+                                    <div className="col-xl-2">{order.date}</div>
+                                    <div className="col-xl-2">{order.status}</div>
+                                    <div className="col-xl-2">{order.price}</div>
+                                </div>
+                            ))}
+                        </div>
                    </div>
                 </div> 
             </div>

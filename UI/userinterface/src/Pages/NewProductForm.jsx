@@ -125,7 +125,7 @@ export function NewProductForm(){
                     <div className="row d-flex justify-content-center mt-4">
                        <div className="col-xl-6">
                          <button className="btn btn-primary" onClick={()=>{
-                                let req = axios.post("http://localhost:8080/products/newproduct",product);
+                                let req = axios.post("http://localhost:9000/products/newproduct",product);
                                 setProductName("")
                                 setProductType("")
                                 setIsAvailable()

@@ -37,7 +37,7 @@ export function Main(){
         let result  = axios.get("http://localhost:9000/products/").then(res=>setProducts(res.data))
         // API call to get the total number of products 
         let total = axios.get("http://localhost:9000/products/total").then(res=>setTotalProducts(res.data))
-        let req = axios.get(`http://localhost:9000/products/${startsWith}`).then(res => setItems(res.data))
+        //let req = axios.get(`http://localhost:9000/products/${startsWith}`).then(res => setItems(res.data))
         
     },[])
     return(
