@@ -41,11 +41,8 @@ public class ProductService {
     }
     // Create a service that counts the number of total product
     public int totalProducts(){
-        int count = 0;
-        for(Product p : productRepository.findAll()){
-            count +=1;
-        }
-        return count;
+        List<Product> totalProducts = productRepository.findAll();
+        return totalProducts.size();
 
     }
     // Create a service that updates information about a specific product
