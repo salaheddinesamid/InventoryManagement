@@ -30,6 +30,15 @@ public class ProductService {
         }
         return filteredProducts;
     }
+    public List<Product> filterProductsByStatus(String status){
+        if(status.equals("All")){
+            return filterProducts();
+        }
+        else{
+            return productRepository.findByStatus(status);
+        }
+
+    }
     // Create a service to add new product that only exists once
     public ResponseEntity<Object> addNewProduct(Product product){
         if(productRepository.existsByProductName(product.getProductName())){

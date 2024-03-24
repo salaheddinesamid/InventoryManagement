@@ -20,8 +20,12 @@ public class ProductsController {
     }
     // Handling GET requests and providing data about all products:
     @GetMapping("/")
-    List<Product> getAllProducts(){
+    List<Product> getAllProducts(@PathVariable String status){
         return productService.filterProducts();
+    }
+    @GetMapping("/{status}")
+    List<Product> getProductsByStatus(@PathVariable String status){
+        return productService.filterProductsByStatus(status);
     }
     // Handling GET request for getting the total number of products
     @GetMapping("/total")

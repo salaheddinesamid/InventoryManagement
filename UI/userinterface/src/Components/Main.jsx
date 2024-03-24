@@ -21,25 +21,17 @@ export function Main(){
         
         
     }
-    const productsStatus = [
-        {
-            "status":"All",
-            "clicked":false
-        },
-        {
-            "status":"active"
-        },
-    ]
+    let [status,setStatus] = useState("All");
     useEffect(()=>{
         // Extract the first letter for the products
         let startsWith = searchProduct[0]
         // API call to get all the products from database
-        let result  = axios.get("http://localhost:9000/products/").then(res=>setProducts(res.data))
+        let result  = axios.get(`http://localhost:9000/products/${status}`).then(res=>setProducts(res.data))
         // API call to get the total number of products 
         let total = axios.get("http://localhost:9000/products/total").then(res=>setTotalProducts(res.data))
         //let req = axios.get(`http://localhost:9000/products/${startsWith}`).then(res => setItems(res.data))
         
-    },[])
+    },)
     return(
         // Main division
         <div className="row mt-3" style={{
@@ -73,15 +65,21 @@ export function Main(){
                     </div>
                     <div className="row ">
                         <div className="col-xl-6 col-md-12">
-                            <button className="btn btn-light col-md-12 mt-1">All</button>
+                            <button className="btn btn-light col-md-12 mt-1" onClick={()=>{
+                                setStatus("All")
+                            }}>All</button>
                         </div>
                         <div className="col-xl-6 col-md-12">
-                            <button className="btn btn-light col-md-12 mt-1">Active</button>
+                            <button className="btn btn-light col-md-12 mt-1" onClick={()=>{
+                                setStatus("Active")
+                            }}>Active</button>
                         </div>
                     </div>
                     <div className="row mt-2">
                         <div className="col-xl-6">
-                            <button className="btn btn-light col-md-12 mt-1">Inactive</button>
+                            <button className="btn btn-light col-md-12 mt-1" onClick={()=>{
+                                setStatus("Inactive")
+                            }}>Inactive</button>
                         </div>
                         <div className="col-xl-6">
                             <button className="btn btn-light col-md-12 mt-1">Draft</button>

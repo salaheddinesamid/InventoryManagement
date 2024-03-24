@@ -231,22 +231,22 @@ export function Sales(){
                       borderRadius:"10px"
                    }}>
                             <div className="col-xl-2">
-                        <p><b>No</b></p>
+                                <p><b>No</b></p>
                             </div>
                             <div className="col-xl-2">
-                        <p><b>IdCustomer</b></p>
+                                <p><b>IdCustomer</b></p>
                             </div>
                             <div className="col-xl-2">
-                        <p><b>Customer name</b></p>
+                                <p><b>Customer name</b></p>
+                            </div>
+                            <div className="col-xl-2">    
+                                <p><b>Order date</b></p>
                             </div>
                             <div className="col-xl-2">
-                        <p><b>Order date</b></p>
+                                <p><b>Status</b></p>
                             </div>
                             <div className="col-xl-2">
-                        <p><b>Status</b></p>
-                            </div>
-                            <div className="col-xl-2">
-                           <p><b>Price</b></p>
+                                <p><b>Price</b></p>
                             </div>
                         </div>
                         <div className="row">
