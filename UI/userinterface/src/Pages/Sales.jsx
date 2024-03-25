@@ -257,7 +257,7 @@ export function Sales(){
                                     <div className="col-xl-2">{order.nameOfCustomer}</div>
                                     <div className="col-xl-2">{order.date}</div>
                                     <div className="col-xl-2">
-                                        {order.status === "Requested" ? <p style={{backgroundColor:"#FFA500",padding:"4px 10px",borderRadius:"20px",color:"white",fontWeight:"bold",justifyContent:"center"}}>{order.status}</p> : order.status === "Delivered" ? <p></p> :""}
+                                        {order.status === "Requested" ? <p style={{backgroundColor:"#FFA500",padding:"4px 10px",borderRadius:"20px",color:"white",fontWeight:"bold",justifyContent:"center"}}>{order.status}</p> : order.status === "Delivered" ? <p style={{backgroundColor:"#2E8B57",padding:"4px 10px",borderRadius:"20px",color:"white",fontWeight:"bold",justifyContent:"center"}}>{order.status}</p> :""}
                                     </div>
                                     <div className="col-xl-2">{order.price}</div>
                                 </div>
