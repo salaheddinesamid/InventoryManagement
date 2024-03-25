@@ -8,19 +8,17 @@ import { Items } from "./Items";
 export function Main(){
     const axios = Axios
     const navigate = useNavigate();
+    // Check if the product was clicked
     let [productClicked,setProductClicked] = useState(false)
-    let [clicked,setClicked] = useState(false);
+    // Products data
     let [products,setProducts] = useState([]);
+    // Total products 
     let[totalProducts,setTotalProducts] = useState(0);
     let [targetProduct,setTargetProduct] = useState();
+    // The name of the product we want to look for
     let [searchProduct,setSearchProduct] = useState("");
     let [items,setItems] = useState([]);
-    
-    function handleSearch(){
-        
-        
-        
-    }
+    // The status of the product
     let [status,setStatus] = useState("All");
     useEffect(()=>{
         // Extract the first letter for the products
