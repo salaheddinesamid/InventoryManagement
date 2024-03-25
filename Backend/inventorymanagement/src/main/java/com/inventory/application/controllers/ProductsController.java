@@ -23,6 +23,7 @@ public class ProductsController {
     List<Product> getAllProducts(@PathVariable String status){
         return productService.filterProducts();
     }
+    // Handling GET request to get products by their status
     @GetMapping("/{status}")
     List<Product> getProductsByStatus(@PathVariable String status){
         return productService.filterProductsByStatus(status);
@@ -45,6 +46,7 @@ public class ProductsController {
     Product updateProduct(@RequestBody PutRequest putRequest){
         return productService.update(putRequest.getId(),putRequest.getNewPrice(),putRequest.getNewQuantity(),putRequest.getNewStatus());
     }
+    //Handling DELETE request to delete a product by ID
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id){
         productService.delete(id);
