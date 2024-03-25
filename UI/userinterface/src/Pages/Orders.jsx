@@ -4,7 +4,7 @@ export function Orders(){
     const axios = Axios
     let [orders,setOrders] = useState([])
     useEffect(()=>{
-        let req = axios.get("http://localhost:9000/orders/").then(res=>setOrders(res.data))
+        let req = axios.get("http://localhos:9000/orders/").then(res=>setOrders(res.data))
     })
     return(
         <div className="container">
