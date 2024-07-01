@@ -1,74 +1,76 @@
-import React from "react";
-import logo from "../logo.png";
-import {useNavigate} from "react-router-dom"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faChartSimple, faFile, faGlobe, faListCheck, faShop, faWarehouse, faGear, faEnvelope, faUser} from "@fortawesome/free-solid-svg-icons"
-export function Header(){
-    const navigate = useNavigate();
-    const listOfLinks = [
-        {
-            "name":"Dashboard",
-            "href":"/",
-            "logo": faGlobe,
-            "color":"black"
-        },
-        {
-            "name":"Sales",
-            "href":"/sales/",
-            "logo":faShop,
-            "color":"#DEB887"
-        },
-        {
-            "name":"Orders",
-            "href":"/orders/",
-            "logo":faListCheck,
-            "color":"#228B22"
-        },
-        {
-            "name":"Documents",
-            "href":"http:localhost:3000/documents/",
-            "logo":faFile,
-            "color":"#1E90FF"
-        }
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./Header.css"; // Import CSS file for styles
+import { faGear, faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-    ]
-    return(
-        <div className="row align-items-center">
-            <div className="col-xl-2 col-md-2 col-sm-2">
-                <h4 className="text-center" style={{
-                    fontWeight:"bold"
-                }}><img src={logo} style={{
-                    height:"40px"
-                }}/>Inventar</h4>
+const HeaderButton = ({ icon, color, onClick, tooltip }) => (
+  <button className={`header-button btn btn-${color}`} onClick={onClick} title={tooltip}>
+    <FontAwesomeIcon icon={icon} />
+  </button>
+);
+
+export function Header({ onViewChange }) {
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSettingsClick = () => {
+    console.log("Settings clicked");
+    // Add your settings functionality here
+  };
+
+  const handleMessagesClick = () => {
+    console.log("Messages clicked");
+    // Add your messages functionality here
+  };
+
+  const handleProfileClick = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+  const handleProfileSettingsClick = () => {
+    navigate("/profile-settings"); // Navigate to the ProfileSettings component
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('tokenType');
+    navigate('/'); // or wherever your login route is defined
+  };
+  
+
+  return (
+    <div className="header-container">
+      <div className="header-title">
+        <h4>My Warehouse</h4>
+      </div>
+      <div className="header-links">
+        <button className="header-link btn btn-light" onClick={() => {onViewChange(1)}} title="Dashboard">
+          Dashboard
+        </button>
+        <button className="header-link btn btn-light" onClick={() => onViewChange(2)} title="Sales">
+          Sales
+        </button>
+        <button className="header-link btn btn-light" onClick={() => onViewChange(3)} title="Orders">
+          Orders
+        </button>
+        <button className="header-link btn btn-light" onClick={() => onViewChange(4)} title="Documents">
+          Documents
+        </button>
+      </div>
+      <div className="header-buttons">
+        <HeaderButton icon={faGear} color="primary" onClick={handleSettingsClick} tooltip="Settings" />
+        <HeaderButton icon={faEnvelope} color="warning" onClick={handleMessagesClick} tooltip="Messages" />
+        <div className="profile-dropdown-container">
+          <HeaderButton icon={faUser} color="dark" onClick={handleProfileClick} tooltip="Profile" />
+          {showProfileDropdown && (
+            <div className="profile-dropdown">
+              <button className="dropdown-item" onClick={handleProfileSettingsClick}>Profile Settings</button>
+              <button className="dropdown-item" onClick={handleLogout}>Logout</button>
             </div>
-            <div className="col-xl-8 col-md-8 col-sm-8 col-sm-8" id="menu">
-                <div className="row" id="links">
-                     {listOfLinks.map((link)=>(
-                         <div className="col-xl-3 col-md-3 col-sm-3" id="link">
-                            <button className="btn btn-light" onClick={()=>{
-                                              navigate(link.href)
-                                       }}>
-                                       <FontAwesomeIcon icon={link.logo} style={{
-                                           color:link.color,
-                                           padding:"0 4px"
-                                       }}/>
-                                       {link.name}</button>
-                         </div>
-                     ))}
-               </div>
-            </div>
-            <div className="col-xl-2 col-md-2 col-sm-2 d-inline-flex mt-1 ps-1 pt-1" id="services">
-                <div className="col-xl-3"id="settings">
-                    <button className="btn btn-primary" ><FontAwesomeIcon icon={faGear}/></button>
-                </div>
-                <div className="col-xl-3">
-                   <button className="btn btn-warning"><FontAwesomeIcon icon={faEnvelope}/></button>
-                </div>
-                <div className="col-xl-3">
-                       <button className="btn btn-dark"><FontAwesomeIcon icon={faUser}/></button>
-                </div>
-               
-            </div>
+          )}
         </div>
-    )
+      </div>
+    </div>
+  );
 }

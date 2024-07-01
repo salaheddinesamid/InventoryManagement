@@ -1,234 +1,238 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Modification } from "./Modification";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Items } from "./Items";
-export function Main(){
-    const axios = Axios
+import { faCheck, faSearch, faTimes, faXmark, faTrash } from "@fortawesome/free-solid-svg-icons";
+import "./Main.css"; // Import CSS file for styles
+
+export function Main() {
+    const axios = Axios;
     const navigate = useNavigate();
-    // Check if the product was clicked
-    let [productClicked,setProductClicked] = useState(false)
-    // Products data
-    let [products,setProducts] = useState([]);
-    // Total products 
-    let[totalProducts,setTotalProducts] = useState(0);
-    let [targetProduct,setTargetProduct] = useState();
-    // The name of the product we want to look for
-    let [searchProduct,setSearchProduct] = useState("");
-    let [items,setItems] = useState([]);
-    // The status of the product
-    let [status,setStatus] = useState("All");
-    useEffect(()=>{
-        // Extract the first letter for the products
-        let startsWith = searchProduct[0]
-        // API call to get all the products from database
-        let result  = axios.get(`http://localhost:9000/products/${status}`).then(res=>setProducts(res.data))
-        // API call to get the total number of products 
-        let total = axios.get("http://localhost:9000/products/total").then(res=>setTotalProducts(res.data))
-        //let req = axios.get(`http://localhost:9000/products/${startsWith}`).then(res => setItems(res.data))
-        
-    })
-    return(
-        // Main division
-        <div className="row mt-3" style={{
-            position:"absolute",
-            zIndex:1
-        }}>
-            
-            <div className="col-xl-3 col-md-3 ms-4 pt-3 pe-3 ps-3" id="product_filter" style={{
-                backgroundColor:"#001f3f",
-                color:"white",
-                height:"700px",
-                borderRadius:"10px"
-            }}>
-                <div className="row">
-                    <div className="col-xl-6">
-                        <h4><b>Products</b></h4>
-                    </div>
-                    <div className="col-xl-6 col-md-12">
-                        <p style={{
-                            border:"0.2px solid gray",
-                            padding:"5px 10px",
-                            borderRadius:"10px"
-                        }}><b>Total:{totalProducts}</b></p>
-                    </div>
-                </div>
-                <div className="row mt-3">
-                    <div className="row">
-                        <div className="col-xl-12">
-                            <p><b>Products status:</b></p>
+
+    // State variables
+    const [products, setProducts] = useState([]);
+    const [totalProducts, setTotalProducts] = useState(0);
+    const [searchProduct, setSearchProduct] = useState("");
+    const [statusFilter, setStatusFilter] = useState("All");
+    const [sortOption, setSortOption] = useState("");
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
+    const [categoryFilter, setCategoryFilter] = useState("");
+    const token = localStorage.getItem("accessToken");
+
+    // Fetch products and total count on initial load and when filters change
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const productResponse = await axios.get(`http://localhost:9000/products/${statusFilter}`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                setProducts(productResponse.data);
+                const totalResponse = await axios.get("http://localhost:9000/products/total");
+                setTotalProducts(totalResponse.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+        fetchProducts();
+    }, [statusFilter, token]);
+
+    // Filter products by search input, price range, status, and category
+    const filteredProducts = products
+        .filter(product => product.productName.toLowerCase().includes(searchProduct.toLowerCase()))
+        .filter(product => (minPrice === "" || product.price >= parseFloat(minPrice)))
+        .filter(product => (maxPrice === "" || product.price <= parseFloat(maxPrice)))
+        .filter(product => (categoryFilter === "" || product.productType === categoryFilter))
+        .sort((a, b) => {
+            if (sortOption === "Alphabetical sort") {
+                return a.productName.localeCompare(b.productName);
+            } else if (sortOption === "Price: Low to High") {
+                return a.price - b.price;
+            } else if (sortOption === "Price: High to Low") {
+                return b.price - a.price;
+            }
+            return 0;
+        });
+
+    // Reset filters
+    const resetFilters = () => {
+        setStatusFilter("All");
+        setSearchProduct("");
+        setSortOption("");
+        setMinPrice("");
+        setMaxPrice("");
+        setCategoryFilter("");
+    };
+
+    // Handle product delete
+    const handleDelete = async (productId) => {
+        try {
+            await axios.delete(`http://localhost:9000/products/delete/${productId}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            setProducts(products.filter(product => product.id !== productId));
+            setTotalProducts(totalProducts - 1);
+        } catch (error) {
+            console.error("Error deleting product:", error);
+        }
+    };
+
+    return (
+        <div className="main-container">
+            {/* Left sidebar - Filters */}
+            <div className="filter-container">
+                <h4>Product Filter</h4>
+                <p className="total-products">Total: {totalProducts}</p>
+                <div className="filter-section">
+                    {/* Status filter */}
+                    <div className="filter-group">
+                        <p>Products status:</p>
+                        <div className="status-buttons">
+                            <button
+                                className={`status-button ${statusFilter === "All" ? "active" : ""}`}
+                                onClick={() => setStatusFilter("All")}
+                            >
+                                All
+                            </button>
+                            <button
+                                className={`status-button ${statusFilter === "Active" ? "active" : ""}`}
+                                onClick={() => setStatusFilter("Active")}
+                            >
+                                Active
+                            </button>
+                            <button
+                                className={`status-button ${statusFilter === "Inactive" ? "active" : ""}`}
+                                onClick={() => setStatusFilter("Inactive")}
+                            >
+                                Inactive
+                            </button>
+                            <button className="status-button">Draft</button>
                         </div>
                     </div>
-                    <div className="row ">
-                        <div className="col-xl-6 col-md-12">
-                            <button className="btn btn-light col-md-12 mt-1" onClick={()=>{
-                                setStatus("All")
-                            }}>All</button>
-                        </div>
-                        <div className="col-xl-6 col-md-12">
-                            <button className="btn btn-light col-md-12 mt-1" onClick={()=>{
-                                setStatus("Active")
-                            }}>Active</button>
-                        </div>
-                    </div>
-                    <div className="row mt-2">
-                        <div className="col-xl-6">
-                            <button className="btn btn-light col-md-12 mt-1" onClick={()=>{
-                                setStatus("Inactive")
-                            }}>Inactive</button>
-                        </div>
-                        <div className="col-xl-6">
-                            <button className="btn btn-light col-md-12 mt-1">Draft</button>
+                    {/* Sort by */}
+                    <div className="filter-group">
+                        <p>Sort by:</p>
+                        <div className="form-floating">
+                            <select
+                                className="form-select"
+                                id="floatingSelect"
+                                aria-label="Sort by"
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                            >
+                                <option value="">Select</option>
+                                <option value="Alphabetical sort">Alphabetical sort</option>
+                                <option value="Price: Low to High">Price: Low to High</option>
+                                <option value="Price: High to Low">Price: High to Low</option>
+                            </select>
+                            <label htmlFor="floatingSelect">Select</label>
                         </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="row mt-3">
-                        <div className="col-xl-12">
-                            <p><b>Product type:</b></p>
+                    {/* Price filter */}
+                    <div className="filter-group">
+                        <p>Price:</p>
+                        <input
+                            className="form-control"
+                            placeholder="Minimum price $"
+                            value={minPrice}
+                            onChange={(e) => setMinPrice(e.target.value)}
+                            type="number"
+                        />
+                        <input
+                            className="form-control"
+                            placeholder="Maximum price $"
+                            value={maxPrice}
+                            onChange={(e) => setMaxPrice(e.target.value)}
+                            type="number"
+                        />
+                    </div>
+                    {/* Category filter */}
+                    <div className="filter-group">
+                        <p>Category:</p>
+                        <div className="form-floating">
+                            <select
+                                className="form-select"
+                                id="floatingCategorySelect"
+                                aria-label="Sort by category"
+                                value={categoryFilter}
+                                onChange={(e) => setCategoryFilter(e.target.value)}
+                            >
+                                <option value="">All Categories</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Book">Book</option>
+                                <option value="Phone">Phone</option>
+                                {/* Add more options as needed */}
+                            </select>
+                            <label htmlFor="floatingCategorySelect">Select</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-xl-6">
-                            <button className="btn btn-light col-md-12 mt-1">Retail</button>
-                        </div>
-                        <div className="col-xl-6">
-                            <button className="btn btn-light col-md-12 mt-1">Wholesale</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="row mt-2">
-                        <div className="col-xl-12">
-                            <p><b>Sort by:</b></p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xl-12">
-                        <div class="form-floating">
-                                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                  <option selected>Alphabetical sort</option>
-                                  <option value="1">One</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
-                                </select>
-                                <label for="floatingSelect">Select</label>
-                              </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-2">
-                    <div className="col-xl-12">
-                        <p><b>Price:</b></p>
-                    </div>
-                    <div className="row">
-                        <div className="col-xl-10 mt-1">
-                            <input className="form-control" placeholder="Minimum price $"/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xl-10 mt-1">
-                            <input className="form-control" placeholder="Maximum price $"/>
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-4 d-flex justify-content-center">
-                    <div className="col-xl-5 mt-4">
-                        <button className="btn btn-danger">Reset Filters</button>
+                    {/* Reset filters */}
+                    <div className="reset-filters">
+                        <button className="btn btn-danger" onClick={resetFilters}>
+                            Reset Filters
+                        </button>
                     </div>
                 </div>
             </div>
-            <div className="col-xl-8 col-md-8">
-                <div className="row">
-                    <div className="row">
-                        <div className="col-xl-7 col-md-7">
-                            <input className="form-control" placeholder="Search product" onChange={(e)=>{
-                                setSearchProduct(e.target.value)
-                                
-                            }}/>
-                            {items.length !==0 ? <Items data={items}/> : ""}
-                        </div>
-                        <div className="col-xl-1 col-md-1">
-                            <button className="btn btn-light"><FontAwesomeIcon icon={faSearch}/></button>
-                        </div>
-                        <div className="col-xl-3 col-md-4">
-                            <button className="btn" style={{
-                                backgroundColor:"#00ff00",
-                                fontWeight:"bold"
-                            }} onClick={()=>{
-                                navigate("/newproduct")
-                            }}>Add Product</button>
-                        </div>
-                        
-                    </div>
-                    <div className="row mt-4" style={{
-                        overflowY:"scroll",
-                        height:"700px",
-                    }}>
-                        <div className="col-xl-12 col-md-12">
-                        {products.map((product)=>(
-                            <div className="row mt-3 ms-2 mb-2" style={{
-                                border:"none",
-                                backgroundColor:"#001f3f",
-                                color:"white",
-                                padding:"10px 10px",
-                                borderRadius:"10px",
-                                cursor:"pointer"
-                            }} onClick={()=>{
-                                setProductClicked(true)
-                                setTargetProduct(product.id)
-                            }} key={product.id}>
-                                <div className="col-xl-4 col-md-4">
-                                    <h4>{product.productName}</h4>
-                                </div>
-                                <div className="col-xl-2 col-md-2">
-                                     <p style={{
-                                        color:"gray"
-                                       }}>Quantity</p>
-                                </div>
-                                <div className="col-xl-4 col-md-4">
-                                    <p style={{
-                                        color:"gray"
-                                    }}>Retail price</p>
-                                </div>
-                                <div className="col-xl-2 col-md-2">
-                                    <p style={{
-                                        color:"gray"
-                                    }}>Status</p>
-                                </div>
-                                <div className="col-xl-4 col-md-4">
-                                    <p>Type:{product.productType === "" ? "undefined": product.productType}</p>
-                                </div>
-                                <div className="col-xl-2 col-md-2">
-                                    {product.quantity}
-                                </div>
-                                <div className="col-xl-4 col-md-4">
-                                    <p>{product.price}$</p>
-                                </div>
-                                <div className="col-xl-2 col-md-1">
-                                    {product.status === "Active" ? <p><FontAwesomeIcon icon={faCheck} style={{
-                                        color:"green"
-                                    }}/>{product.status}</p>:<p><FontAwesomeIcon icon={faXmark} style={{
-                                        color:"red"
-                                    }}/>{product.status}</p>}
-                                </div>
-                                <div className="row">
-                                    <div className="col-xl-12">
-                                      {productClicked && targetProduct === product.id ? <Modification index={product.id} />:""}
-                                    </div>
-                                </div>
-                                   
-                                   
-                            </div>
-                            
-                        ))}
-                    </div>
+
+            {/* Right section - Product list */}
+            <div className="products-list">
+                <div className="search-bar">
+                    <input
+                        className="form-control search-input"
+                        placeholder="Search product"
+                        value={searchProduct}
+                        onChange={(e) => setSearchProduct(e.target.value)}
+                    />
+                    {searchProduct && (
+                        <button className="clear-search" onClick={() => setSearchProduct("")}>
+                            <FontAwesomeIcon icon={faTimes} />
+                        </button>
+                    )}
+                    <button className="btn btn-light search-button">
+                        <FontAwesomeIcon icon={faSearch} />
+                    </button>
                 </div>
-                
+                <div className="add-product">
+                    <button className="btn btn-success font-weight-bold" onClick={() => navigate("/newproduct")}>
+                        Add Product
+                    </button>
+                </div>
+                <div className="products-container">
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Retail Price</th>
+                                <th>Status</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredProducts.map((product) => (
+                                <tr key={product.id} onClick={() => navigate(`/products/${product.id}`)}>
+                                    <td>{product.productName}</td>
+                                    <td>{product.quantity}</td>
+                                    <td>{product.price}</td>
+                                    <td>{product.status === "Active" ? <FontAwesomeIcon icon={faCheck} style={{ color: "green" }} /> : <FontAwesomeIcon icon={faXmark} style={{ color: "red" }} />}</td>
+                                    <td>{product.productType || "Undefined"}</td>
+                                    <td>
+                                        <button className="btn btn-danger" onClick={(e) => { e.stopPropagation(); handleDelete(product.id); }}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    )
+    );
 }

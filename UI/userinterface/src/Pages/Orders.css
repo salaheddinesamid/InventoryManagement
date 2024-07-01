@@ -1,0 +1,47 @@
+/* orders component styles */
+
+.table-header {
+    background-color: #DCDCDC;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.table-header p {
+    font-weight: bold;
+    text-align: center;
+}
+
+.table-row {
+    background-color: #F5F5F5;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.table-row:hover {
+    background-color: #E0E0E0;
+    cursor: pointer;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.status-badge.requested {
+    background-color: #FFA500; /* orange */
+    color: white;
+}
+
+.status-badge.delivered {
+    background-color: #2E8B57; /* green */
+    color: white;
+}
+
+.status-badge.pending {
+    background-color: #FFD700; /* gold */
+    color: black;
+}

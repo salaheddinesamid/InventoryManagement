@@ -1,0 +1,279 @@
+/* Main.css */
+
+/* Main container styles */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f2f5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter container styles */
+.filter-container {
+    width: 250px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-container h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.total-products {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+/* Status filter buttons */
+.status-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.status-button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.status-button.active {
+    background-color: #28a745;
+}
+
+.status-button:hover {
+    background-color: #0056b3;
+}
+
+/* Form floating styles for select */
+.form-floating {
+    position: relative;
+}
+
+.form-floating select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.form-floating select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.form-floating label {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    background-color: #fff;
+    padding: 0 4px;
+    color: #888;
+    font-size: 12px;
+    pointer-events: none;
+    transition: font-size 0.3s ease, transform 0.3s ease;
+}
+
+.form-floating select:focus + label,
+.form-floating select:not(:placeholder-shown) + label {
+    font-size: 10px;
+    transform: translateY(-80%);
+    background-color: #fff;
+    padding: 0 4px;
+    color: #007bff;
+}
+
+/* Price filter inputs */
+.form-control {
+    width: calc(50% - 5px);
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Reset filters button */
+.reset-filters button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reset-filters button:hover {
+    background-color: #c82333;
+}
+
+/* Products list styles */
+.products-list {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.clear-search {
+    border: none;
+    background-color: transparent;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.clear-search:hover {
+    color: #007bff;
+}
+
+.search-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #e9ecef;
+}
+
+/* Add product button */
+.add-product {
+    margin-bottom: 20px;
+}
+
+.add-product button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-product button:hover {
+    background-color: #218838;
+}
+
+/* Products container */
+.products-container {
+    overflow-x: auto;
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+.table-striped tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Actions button */
+.btn-danger {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-light {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #e9ecef;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+}

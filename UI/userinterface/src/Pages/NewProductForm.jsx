@@ -1,142 +1,200 @@
 import React, { useState } from "react";
 import { Header } from "../Components/Header";
-import  Axios  from "axios";
-export function NewProductForm(){
-    let [productName,setProductName] = useState("");
-    let [productType, setProductType] = useState("");
-    let [quantity,setQuantity] = useState();
-    let [status,setStatus] = useState("");
-    let [price,setPrice] = useState();
-    let [isAvailable,setIsAvailable] = useState(false)
-    let product = {productName,productType,quantity,status,price}
-    const productTypes = [
-        
-        {
-            "type":"Laptop"
-        },
-        {
-            "type":"Phone"
-        },
-        {
-            "type":"Cloth"
-        },
-        {
-            "type":"Book"
-        }
+import Axios from "axios";
+import Papa from "papaparse";
 
-    ]
-    const productStatus = [
-        {
-            "status":"Active"
+export function NewProductForm() {
+  const [productName, setProductName] = useState("");
+  const [productType, setProductType] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [status, setStatus] = useState("");
+  const [price, setPrice] = useState(0);
+  const [isAvailable, setIsAvailable] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
+  const token = localStorage.getItem("accessToken");
+
+  const productTypes = ["Laptop", "Phone", "Cloth", "Book"];
+  const productStatus = ["Active", "Inactive"];
+  const isAvailableStatus = ["Available", "Not Available"];
+
+  const [alertDisplay, setAlertDisplay] = useState("none");
+
+  function displayAndHide(message, type) {
+    setAlertMessage(message);
+    setAlertType(type);
+    setAlertDisplay("flex");
+    setTimeout(function () {
+      setAlertDisplay("none");
+    }, 3000);
+  }
+
+  const handleSubmit = () => {
+    if (!productName || !productType || quantity <= 0 || !status || price <= 0) {
+      displayAndHide("Please fill out all fields correctly.", "danger");
+      return;
+    }
+
+    const product = { productName, productType, quantity, status, price, isAvailable };
+
+    Axios.post("http://localhost:9000/products/newproduct", product, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        console.log("Product added successfully:", response.data);
+        setProductName("");
+        setProductType("");
+        setQuantity(0);
+        setStatus("");
+        setPrice(0);
+        setIsAvailable(false);
+        displayAndHide("Product has been added successfully", "success");
+      })
+      .catch((error) => {
+        console.error("Error adding product:", error);
+        displayAndHide("Error adding product. Please try again.", "danger");
+      });
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        complete: function (results) {
+          const data = results.data;
+          // Assuming the CSV contains columns: productName, productType, quantity, status, price, isAvailable
+          data.forEach((row) => {
+            const product = {
+              productName: row.productName,
+              productType: row.productType,
+              quantity: parseInt(row.quantity, 10),
+              status: row.status,
+              price: parseFloat(row.price),
+              isAvailable: row.isAvailable === "true",
+            };
+
+            Axios.post("http://localhost:9000/products/newproduct", product, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+              .then((response) => {
+                console.log("Product added successfully:", response.data);
+                displayAndHide("Product has been added successfully", "success");
+              })
+              .catch((error) => {
+                console.error("Error adding product:", error);
+                displayAndHide("Error adding product. Please try again.", "danger");
+              });
+          });
         },
-        {
-            "status":"Inactive"
-        }
-    ]
-    const isAvailableStatus = [
-        {
-            "status":"Available"
-        },
-        {
-            "status":"Not Available"
-        }
-    ]
-    function displayAndHide() {
-        setAlertDisplay("flex") // Display the div
-        setTimeout(function(){
-          setAlertDisplay("none") // Hide the div after 3 seconds
-        }, 3000);
-      }
-    let [alertDisplay,setAlertDisplay] = useState("none");
-    const axios = Axios
-    return(
-        <div className="row">
-            <div className="row">
-                <Header/>
+      });
+    }
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        <Header />
+      </div>
+      <div className="row mt-4 d-flex justify-content-center">
+        <div className="col-xl-6">
+          <div className={`alert alert-${alertType}`} role="alert" style={{ display: alertDisplay }}>
+            {alertMessage}
+          </div>
+          <div className="card p-4">
+            <h3 className="text-center mb-4">Add New Product</h3>
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Product name"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+              />
             </div>
-            <div className="row ">
-                <div className="row d-flex justify-content-center">
-                    <div className="col-xl-4">
-                    <div class="alert alert-success" role="alert" id="alert" style={{
-                        display:alertDisplay
-                    }}>
-                            Product has been added successfully
-                          </div>
-                    </div>
-                </div>
-                <div className="container">
-                    <div className="row d-flex justify-content-center mt-4">
-                        <div className="col-xl-3">
-                            <input placeholder="Product name" className="form-control" value={productName} onChange={(e)=>{
-                                setProductName(e.target.value)
-                            }}/>
-                        </div>
-                        <div className="col-xl-3">
-                        <select className="form-select" aria-label="Select the Symptom" onChange={(e)=>{
-                           setProductType(e.target.value)
-                               }}>
-                                <option selected>Category</option>
-                    
-                                 {productTypes.map((element)=>(
-                            
-                              <option value={element.type}
-                              >{element.type}</option>
-                               ))}
-                    </select>
-                        </div>
-                    </div>
-                    <div className="row d-flex justify-content-center mt-4">
-                        <div className="col-xl-3">
-                            <input placeholder="Quantity" className="form-control" value={quantity} onChange={(e)=>{
-                                setQuantity(e.target.value)
-                            }}/>
-                        </div>
-                        <div className="col-xl-3">
-                            <select className="form-select" name="" id="" onChange={(e)=>{
-                                setStatus(e.target.value)
-                                
-                            }}>
-                                <option selected>Status</option>
-                                {productStatus.map((status)=>(
-                                <option value={status.status}>{status.status}</option>
-                            ))}</select>
-                        </div>
-                    </div>
-                    <div className="row d-flex justify-content-center mt-4">
-                        <div className="col-xl-3">
-                            <select className="form-select" name="" id="" onChange={(e)=>{
-                                if(e.target.value === "Available"){
-                                    setIsAvailable(true)
-                                }else if( e.target.value === "Not Available"){
-                                    setIsAvailable(false);
-                                }
-                            }}>
-                                {isAvailableStatus.map((el)=>(
-                                    <option value={el.status}>{el.status}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="col-xl-3">
-                            <input placeholder="Price $" className="form-control" value={price} onChange={(e)=>{
-                                setPrice(e.target.value)
-                            }}/>
-                        </div>
-                    </div>
-                    <div className="row d-flex justify-content-center mt-4">
-                       <div className="col-xl-6">
-                         <button className="btn btn-primary" onClick={()=>{
-                                let req = axios.post("http://localhost:9000/products/newproduct",product);
-                                setProductName("")
-                                setProductType("")
-                                setIsAvailable()
-                                setQuantity(0)
-                                setPrice(0)
-                                displayAndHide()
-                            }}>Add</button>  
-                       </div>
-                    </div>
-                </div>
+            <div className="mb-3">
+              <select
+                className="form-select"
+                value={productType}
+                onChange={(e) => setProductType(e.target.value)}
+              >
+                <option value="" disabled>
+                  Category
+                </option>
+                {productTypes.map((type, index) => (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
+            <div className="mb-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                min="0"
+              />
+            </div>
+            <div className="mb-3">
+              <select
+                className="form-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="" disabled>
+                  Status
+                </option>
+                {productStatus.map((status, index) => (
+                  <option key={index} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <select
+                className="form-select"
+                value={isAvailable ? "Available" : "Not Available"}
+                onChange={(e) => setIsAvailable(e.target.value === "Available")}
+              >
+                {isAvailableStatus.map((status, index) => (
+                  <option key={index} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Price $"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                min="0"
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                type="file"
+                className="form-control"
+                accept=".csv"
+                onChange={handleFileUpload}
+              />
+            </div>
+            <button className="btn btn-primary w-100" onClick={handleSubmit}>
+              Add Product
+            </button>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

@@ -1,0 +1,157 @@
+/* sales-container */
+.sales-container {
+    padding: 20px;
+}
+
+/* sales-card */
+.sales-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sales-card .sales-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sales-card .sales-header .btn-icon {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.sales-card .sales-header .sales-info {
+    flex: 1;
+}
+
+.sales-card .sales-header .sales-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sales-card .sales-header .sales-label {
+    color: #999;
+}
+
+.sales-card hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+.sales-card .sales-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sales-card .sales-footer .change {
+    flex: 1;
+}
+
+.sales-card .sales-footer .change p {
+    margin: 0;
+}
+
+.sales-card .sales-footer .change .change-value {
+    font-weight: bold;
+}
+
+.sales-card .sales-footer .arrow {
+    flex: 0 0 auto;
+}
+
+.sales-card .sales-footer .arrow .btn-light {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* analytics-card */
+.analytics-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-card h4 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* customer-details */
+.customer-details {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.customer-details h4 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.customer-details .table-header {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.customer-details .table-header > div {
+    flex: 1;
+    text-align: center;
+}
+
+.customer-details .table-row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.customer-details .table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.customer-details .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+}
+
+.customer-details .status-badge.requested {
+    background-color: #ffa500; /* orange */
+}
+
+.customer-details .status-badge.delivered {
+    background-color: #2e8b57; /* green */
+}
+
+/* Additional styling for responsiveness or specific elements can be added as needed */

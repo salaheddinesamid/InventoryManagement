@@ -1,0 +1,71 @@
+/* Dashboard.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+h4 {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+#menu {
+    margin-top: 10px;
+}
+
+#links .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#links .btn:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#services .btn {
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+.logo-text {
+    font-weight: bold;
+}
+
+.logo-img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* Add this to your existing CSS file */
+.product-card {
+    border: none;
+    background-color: #001f3f;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.product-card .text-muted {
+    color: gray;
+}
+
+.btn-success {
+    background-color: #00ff00;
+    font-weight: bold;
+}
+
+.product-card:hover {
+    background-color: #003f7f;
+}
