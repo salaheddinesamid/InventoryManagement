@@ -26,11 +26,13 @@ public class Manager implements UserDetails {
     List <Roles> roles ;
     public Manager (String email , String password , List<Roles> roles) { this.email= email ;
         this.password=password ;
-        this.roles=roles ;}
+        this.roles=roles ;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>(); this.roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        this.roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
         return authorities;
     }
 

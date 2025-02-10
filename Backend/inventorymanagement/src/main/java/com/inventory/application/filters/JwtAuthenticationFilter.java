@@ -1,4 +1,4 @@
-package com.inventory.application.configuration;
+package com.inventory.application.filters;
 
 import com.inventory.application.filters.JwtUtilities;
 import com.inventory.application.services.CustomerDetailsService;
@@ -20,6 +20,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private  final JwtUtilities jwtUtilities ;
     private final CustomerDetailsService customerUserDetailsService ;
 
@@ -33,7 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = customerUserDetailsService. loadUserByUsername(email);
             if (userDetails != null) { UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails.
-                            getUsername() ,null , userDetails.getAuthorities()); log.info("authenticated user with email :{}", email);
+                            getUsername() ,null , userDetails.getAuthorities());
+                log.info("authenticated user with email :{}", email);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

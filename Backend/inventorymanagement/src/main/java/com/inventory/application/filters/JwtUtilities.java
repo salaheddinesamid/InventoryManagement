@@ -1,15 +1,16 @@
 package com.inventory.application.filters;
 
+
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.security.SignatureException;
 import java.util.Date;
-import java.util.List;
 import java.util.function.Function;
 
 @Slf4j
@@ -17,7 +18,6 @@ import java.util.function.Function;
 public class JwtUtilities {
 
     private final String secret = "385e7e7bf9074b975ccfb147a035696893be210c823250bf824cf61538176eda";
-
     private Long jwtExpiration = 36000000L;
     public String extractUserName(String token){
         return extractClaim(token, Claims::getSubject);
@@ -27,8 +27,7 @@ public class JwtUtilities {
         final Claims claims = extractAllClaims(token);
         return claimsTFunction.apply(claims);
     }
-
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token){
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
@@ -40,21 +39,20 @@ public class JwtUtilities {
     public Boolean validateToken(String token, UserDetails userDetails) { final String email = extractUserName(token);
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-    public String getToken (HttpServletRequest httpServletRequest) { final String bearerToken = httpServletRequest. getHeader("Authorization"); if(StringUtils.hasText(bearerToken) && bearerToken. startsWith("Bearer "))
-    {return bearerToken.substring(7,bearerToken.length()); } // The part after "Bearer "
+    public String getToken (HttpServletRequest httpServletRequest) { final String bearerToken = httpServletRequest. getHeader("Authorization");
+        if(StringUtils.hasText(bearerToken) && bearerToken. startsWith("Bearer "))
+        {
+            return bearerToken.substring(7,bearerToken.length()); } // The part after "Bearer "
         return null;
     }
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
-        } catch (SignatureException e) {
-            log.info("Invalid JWT signature.");
-            log.trace("Invalid JWT signature trace: {}", e); } catch (MalformedJwtException e) {
+        } catch (MalformedJwtException e) {
             log.info("Invalid JWT token.");
             log.trace("Invalid JWT token trace: {}", e); } catch (ExpiredJwtException e) {
             log.info("Expired JWT token.");
@@ -65,11 +63,10 @@ public class JwtUtilities {
         }
         return false;
     }
-    public String generateToken(String email , List<String> roles) {
-        return Jwts
-                .builder()
+    public String generateToken(String email, String role){
+        return Jwts.builder()
                 .setSubject(email)
-                .claim("role",roles)
+                .claim("role",role)
                 .setExpiration(new Date(System.currentTimeMillis() + 360000))
                 .signWith(SignatureAlgorithm.HS256,secret)
                 .compact();

@@ -19,10 +19,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -66,23 +69,31 @@ public class ManagerService {
             manager.setRoles(Collections.singletonList(role));
             managerRepository.save(manager);
 
-            String token = jwtUtilities.generateToken(registerDto.getEmail(), Collections.singletonList(role.getRoleName()));
+            String token = jwtUtilities.generateToken(registerDto.getEmail(), String.valueOf(Collections.singletonList(role.getRoleName())));
             return new ResponseEntity<>(new BearerToken(token, "Bearer"), HttpStatus.OK);
         }
     }
 
     public ResponseEntity<?> authenticate(LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword())
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
         );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Manager user = managerRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        List<String> rolesNames = new ArrayList<>();
-        user.getRoles().forEach(r -> rolesNames.add(r.getRoleName()));
-        String token = jwtUtilities.generateToken(user.getUsername(), rolesNames);
-        System.out.println(token);
-        return new ResponseEntity<>(new BearerToken(token, "Bearer"), HttpStatus.OK);
+        Manager user = managerRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
+
+        List<String> roleNames = user.getRoles().stream()
+                .map(Roles::getRoleName)
+                .toList();
+
+        String token = jwtUtilities.generateToken(user.getUsername(), String.valueOf(roleNames));
+
+        System.out.println("Generated JWT Token for user: {}" + user.getUsername());
+
+        return ResponseEntity.ok(new BearerToken(token, "Bearer"));
     }
+
 
     public Manager getDetails(String email) {
         return managerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
